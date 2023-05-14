@@ -1,7 +1,11 @@
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 -- Install packer
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
 keymap("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
+keymap("t", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 -- keymap("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -11,6 +15,28 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.cmd [[packadd packer.nvim]]
 end
 
+-- Resize panes with Ctrl arrow keys
+keymap("n", "<C-Up>", ":resize -2<CR>", opts)
+keymap("n", "<C-Down>", ":resize +2<CR>", opts)
+keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+
+-- Navigate around panes
+keymap("n", "<C-l>", "<C-W><C-L>", opts)
+keymap("n", "<C-k>", "<C-W><C-K>", opts)
+keymap("n", "<C-j>", "<C-W><C-J>", opts)
+keymap("n", "<C-h>", "<C-W><C-H>", opts)
+
+-- Navigate into toggleterm and out
+keymap("t", "<C-l>", "<C-\\><C-N><C-l>", opts)
+keymap("t", "<C-k>", "<C-\\><C-N><C-k>", opts)
+keymap("t", "<C-j>", "<C-\\><C-N><C-j>", opts)
+keymap("t", "<C-h>", "<C-\\><C-N><C-h>", opts)
+-- nnoremap <silent> <C-Up>    :resize +3<CR>
+-- noremap     :
+-- noremap <Down>  :resize +2<CR>
+-- noremap <Left>  :vertical resize -2<CR>
+-- noremap <Right> :vertical resize +2<CR>
 
 vim.opt.scrolloff = 8
 vim.opt.isfname:append("@-@")
@@ -70,6 +96,14 @@ vim.api.nvim_set_keymap("n", "<leader>gp", ":Git push -u origin HEAD<CR>", {nore
 -- vim.api.nvim_set_keymap("t", "tt", "<C-\\><C-n><C-w>w:FTermToggle<CR>", {noremap=false, silent=true})
 
 require('packer').startup(function(use)
+  use {
+	"karoliskoncevicius/vim-sendtowindow"
+	}
+  use {
+      "jose-elias-alvarez/null-ls.nvim",
+      requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  }
+
   use 'tpope/vim-surround'
   use 'xiyaowong/nvim-transparent'
   use { 'numToStr/FTerm.nvim',
@@ -310,9 +344,6 @@ vim.o.completeopt = 'menuone,noselect'
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -609,6 +640,9 @@ require('fidget').setup()
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
+-- Bekzat's edit
+local nvim_lsp = require('lspconfig')
+nvim_lsp.pyright.setup{}
 
 require('lspconfig').lua_ls.setup {
   on_attach = on_attach,
@@ -687,17 +721,15 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
-  callback = function()
-   require('go.format').goimport()
-  end,
-  group = format_sync_grp,
-})
-require('go').setup()
+-- local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.go",
+--   callback = function()
+--    require('go.format').goimport()
+--   end,
+--   group = format_sync_grp,
+-- })
+-- require('go').setup()
 
 
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
