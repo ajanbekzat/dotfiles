@@ -1,4 +1,8 @@
 -- Install packer
+local opts = { noremap = true, silent = true }
+local keymap = vim.api.nvim_set_keymap
+keymap("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
+-- keymap("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -7,7 +11,25 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.cmd [[packadd packer.nvim]]
 end
 
-vim.api.nvim_set_keymap("i", "jj", "<Esc>", {noremap=false})
+
+vim.opt.scrolloff = 8
+vim.opt.isfname:append("@-@")
+
+vim.opt.updatetime = 50
+
+vim.opt.colorcolumn = "80"
+
+-- Drag lines in visual mode
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Keep centered with C-u and C-d
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+vim.api.nvim_set_keymap("i", "jk", "<Esc>", {noremap=false})
 vim.api.nvim_set_keymap("n", "tk", ":bnext<enter>", {noremap=false})
 vim.api.nvim_set_keymap("n", "tj", ":bprev<enter>", {noremap=false})
 vim.api.nvim_set_keymap("n", "th", ":bfirst<enter>", {noremap=false})
@@ -211,7 +233,9 @@ require('packer').startup(function(use)
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-
+  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+    require("toggleterm").setup()
+  end}
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
   if has_plugins then
@@ -268,7 +292,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Decrease update time
-vim.o.updatetime = 250
+-- vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
@@ -517,7 +541,10 @@ local on_attach = function(_, bufnr)
 
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
-
+  -- nmap(<silent> <c-k> :wincmd k<CR>)
+  -- nmap <silent> <c-j> :wincmd j<CR>
+  -- nmap <silent> <c-h> :wincmd h<CR>
+  -- nmap <silent> <c-l> :wincmd l<CR>
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
