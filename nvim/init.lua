@@ -5,7 +5,6 @@ vim.g.maplocalleader = ' '
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
 keymap("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
-keymap("t", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 -- keymap("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -55,16 +54,27 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+
 vim.api.nvim_set_keymap("i", "jk", "<Esc>", {noremap=false})
-vim.api.nvim_set_keymap("n", "tk", ":bnext<enter>", {noremap=false})
-vim.api.nvim_set_keymap("n", "tj", ":bprev<enter>", {noremap=false})
-vim.api.nvim_set_keymap("n", "th", ":bfirst<enter>", {noremap=false})
-vim.api.nvim_set_keymap("n", "tl", ":blast<enter>", {noremap=false})
+
+vim.api.nvim_set_keymap("n", "tl", ":bnext<enter>", {noremap=false})
+vim.api.nvim_set_keymap("n", "th", ":bprev<enter>", {noremap=false})
+vim.api.nvim_set_keymap("n", "tj", ":bfirst<enter>", {noremap=false})
+vim.api.nvim_set_keymap("n", "tk", ":blast<enter>", {noremap=false})
+
+-- vim.api.nvim_set_keymap("n", "tk", ":bnext<enter>", {noremap=false})
+-- vim.api.nvim_set_keymap("n", "tj", ":bprev<enter>", {noremap=false})
+-- vim.api.nvim_set_keymap("n", "th", ":bfirst<enter>", {noremap=false})
+-- vim.api.nvim_set_keymap("n", "tl", ":blast<enter>", {noremap=false})
+
 vim.api.nvim_set_keymap("n", "td", ":bdelete<enter>", {noremap=false})
+
 vim.api.nvim_set_keymap("n", "QQ", ":q!<enter>", {noremap=false})
 vim.api.nvim_set_keymap("n", "WW", ":w!<enter>", {noremap=false})
+
 vim.api.nvim_set_keymap("n", "E", "$", {noremap=false})
 vim.api.nvim_set_keymap("n", "B", "^", {noremap=false})
+
 vim.api.nvim_set_keymap("n", "TT", ":TransparentToggle<CR>", {noremap=true})
 vim.api.nvim_set_keymap("n", "tf", ":TodoTelescope<CR>", {noremap=true})
 vim.api.nvim_set_keymap("n", "ss", ":noh<CR>", {noremap=true})
@@ -89,9 +99,9 @@ vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
 )
 vim.keymap.set('n', '<space><space>', "<cmd>set nohlsearch<CR>")
 
-
 vim.api.nvim_set_keymap("n", "<leader>gc", ":Git commit -m \"", {noremap=false})
 vim.api.nvim_set_keymap("n", "<leader>gp", ":Git push -u origin HEAD<CR>", {noremap=false})
+
 -- vim.api.nvim_set_keymap("n", "<leader>tt", ":FTermToggle<CR>", {noremap=false})
 -- vim.api.nvim_set_keymap("t", "tt", "<C-\\><C-n><C-w>w:FTermToggle<CR>", {noremap=false, silent=true})
 
@@ -99,10 +109,6 @@ require('packer').startup(function(use)
   use {
 	"karoliskoncevicius/vim-sendtowindow"
 	}
-  use {
-      "jose-elias-alvarez/null-ls.nvim",
-      requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-  }
 
   use 'tpope/vim-surround'
   use 'xiyaowong/nvim-transparent'
@@ -252,6 +258,10 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  use {
+      "jose-elias-alvarez/null-ls.nvim",
+      requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  }
 
   -- Git related plugins
   use 'tpope/vim-fugitive'
@@ -721,15 +731,15 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = "*.go",
---   callback = function()
---    require('go.format').goimport()
---   end,
---   group = format_sync_grp,
--- })
--- require('go').setup()
+local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+   require('go.format').goimport()
+  end,
+  group = format_sync_grp,
+})
+require('go').setup()
 
 
 
