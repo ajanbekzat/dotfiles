@@ -25,7 +25,7 @@ packer.startup(function(use)
       -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
+      --
       -- Useful status updates for LSP
       'j-hui/fidget.nvim',
     },
@@ -33,7 +33,7 @@ packer.startup(function(use)
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
-
+  --
   use 'glepnir/lspsaga.nvim' -- LSP UIs
   use 'L3MON4D3/LuaSnip'
   use {
@@ -56,9 +56,9 @@ packer.startup(function(use)
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
   })
-  use 'akinsho/nvim-bufferline.lua'
+  use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
   -- use 'github/copilot.vim'
-
+  --
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
   use { 'akinsho/toggleterm.nvim', tag = '*', config = function()
@@ -68,4 +68,32 @@ packer.startup(function(use)
     "karoliskoncevicius/vim-sendtowindow"
   }
   use 'tpope/vim-fugitive'
+  -- WhichKey
+  use {
+    "folke/which-key.nvim",
+    event = "VimEnter",
+    config = function()
+      require("config.whichkey").setup()
+    end,
+  }
+  -- Debugging
+  use {
+    "mfussenegger/nvim-dap",
+    opt = true,
+    event = "BufReadPre",
+    module = { "dap" },
+    wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
+    requires = {
+      "Pocco81/DAPInstall.nvim",
+      "theHamsta/nvim-dap-virtual-text",
+      "rcarriga/nvim-dap-ui",
+      "mfussenegger/nvim-dap-python",
+      "nvim-telescope/telescope-dap.nvim",
+      { "leoluz/nvim-dap-go",                module = "dap-go" },
+      { "jbyuki/one-small-step-for-vimkind", module = "osv" },
+    },
+    config = function()
+      require("config.dap").setup()
+    end,
+  }
 end)
