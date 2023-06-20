@@ -1,5 +1,5 @@
+vim.g.mapleader = ' '
 local keymap = vim.keymap
-local opts = { noremap = true, silent = true }
 keymap.set('n', 'x', '"_x')
 
 -- Increment/decrement
@@ -33,13 +33,13 @@ keymap.set('n', '<C-Left>', ":vertical resize -2<CR>", opts)
 keymap.set('n', '<C-Right>', ":vertical resize +2<CR>", opts)
 keymap.set('n', '<C-Up>', ':resize -2<CR>', opts)
 keymap.set('n', '<C-Down>', ':resize +2<CR>', opts)
-keymap.set('n', '<C-y>', ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 
 -- Navigate into toggleterm and out
--- keymap("t", "<s-l>", "<C-\\><C-N><C-l>", opts)
--- keymap("t", "<s-k>", "<C-\\><C-N><C-k>", opts)
--- keymap("t", "<s-j>", "<C-\\><C-N><C-j>", opts)
--- keymap("t", "<s-h>", "<C-\\><C-N><C-h>", opts)
+keymap.set("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
+keymap.set('t', 'sl', '<C-\\><C-N><C-l>', opts)
+keymap.set('t', 'sk', '<C-\\><C-N><C-k>', opts)
+keymap.set('t', 'sj', '<C-\\><C-N><C-j>', opts)
+keymap.set('t', 'sh', '<C-\\><C-N><C-h>', opts)
 
 
 -- Keep centered with C-u and C-d
@@ -49,6 +49,5 @@ keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "n", "nzzzv")
 keymap.set("n", "N", "Nzzzv")
 
-keymap.set("n", "<C-y>", ":ToggleTerm size=20 dir=current direction=horizontal", opts)
 -- vim.g.mapleader = ' '
 -- keymap.set("i", "jk", "<Esc>", { noremap = false })

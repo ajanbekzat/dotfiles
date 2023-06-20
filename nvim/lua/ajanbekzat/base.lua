@@ -1,8 +1,15 @@
 vim.cmd("autocmd!")
+vim.cmd('colorscheme aurora')
 
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
+
+-- vim.opt.hidden = false
+vim.opt.showtabline = 2
+vim.opt.undofile = true
+vim.opt.updatetime = 300
+vim.opt.timeoutlen = 1000
 
 vim.wo.number = true
 

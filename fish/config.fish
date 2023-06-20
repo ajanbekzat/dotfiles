@@ -3,13 +3,21 @@ set fish_greeting ""
 set -gx TERM xterm-256color
 
 # theme
-set -g theme_color_scheme terminal-dark
+set -g theme_color_scheme nord
+set -g theme_nerd_fonts yes
+# set -g theme_color_scheme terminal-dark
 set -g fish_prompt_pwd_dir_length 1
 set -g theme_display_user yes
 set -g theme_hide_hostname no
 set -g theme_hostname always
 
 # aliases
+function ide
+  tmux split-window -v -p 30
+  tmux split-window -h -p 66
+  tmux split-window -h -p 50
+end
+
 alias ls "ls -p -G"
 alias la "ls -A"
 alias ll "ls -l"
@@ -53,11 +61,3 @@ set LOCAL_CONFIG (dirname (status --current-filename))/config-local.fish
 if test -f $LOCAL_CONFIG
   source $LOCAL_CONFIG
 end
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f /Users/bekzatajan/anaconda3/bin/conda
-    eval /Users/bekzatajan/anaconda3/bin/conda "shell.fish" "hook" $argv | source
-end
-# <<< conda initialize <<<
-

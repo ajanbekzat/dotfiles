@@ -9,10 +9,14 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
   use 'xiyaowong/nvim-transparent'
   use 'wbthomason/packer.nvim'
-  use {
-    'svrana/neosolarized.nvim',
-    requires = { 'tjdevries/colorbuddy.nvim' }
-  }
+
+  -- use {
+  --   'svrana/neosolarized.nvim',
+  --   requires = { 'tjdevries/colorbuddy.nvim' }
+  -- }
+  use "lunarvim/colorschemes"
+  -- use({ 'rose-pine/neovim', as = 'rose-pine' })
+
   use 'nvim-lualine/lualine.nvim' -- Statusline
   use 'nvim-lua/plenary.nvim'     -- Common utilities
   use 'onsails/lspkind-nvim'      -- vscode-like pictograms
@@ -30,6 +34,10 @@ packer.startup(function(use)
       'j-hui/fidget.nvim',
     },
   }
+  use {
+      "SmiteshP/nvim-navic",
+      requires = "neovim/nvim-lspconfig"
+  }
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
@@ -41,6 +49,7 @@ packer.startup(function(use)
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
   use 'kyazdani42/nvim-web-devicons' -- File icons
+  use 'moll/vim-bbye'
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'windwp/nvim-autopairs'
@@ -56,7 +65,7 @@ packer.startup(function(use)
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
   })
-  use { 'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons' }
+  use 'akinsho/nvim-bufferline.lua'
   -- use 'github/copilot.vim'
   --
   use 'lewis6991/gitsigns.nvim'
@@ -68,32 +77,35 @@ packer.startup(function(use)
     "karoliskoncevicius/vim-sendtowindow"
   }
   use 'tpope/vim-fugitive'
-  -- WhichKey
   use {
-    "folke/which-key.nvim",
-    event = "VimEnter",
-    config = function()
-      require("config.whichkey").setup()
-    end,
+    "gennaro-tedesco/nvim-jqx"
   }
-  -- Debugging
-  use {
-    "mfussenegger/nvim-dap",
-    opt = true,
-    event = "BufReadPre",
-    module = { "dap" },
-    wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
-    requires = {
-      "Pocco81/DAPInstall.nvim",
-      "theHamsta/nvim-dap-virtual-text",
-      "rcarriga/nvim-dap-ui",
-      "mfussenegger/nvim-dap-python",
-      "nvim-telescope/telescope-dap.nvim",
-      { "leoluz/nvim-dap-go",                module = "dap-go" },
-      { "jbyuki/one-small-step-for-vimkind", module = "osv" },
-    },
-    config = function()
-      require("config.dap").setup()
-    end,
-  }
+  -- -- WhichKey
+  -- use {
+  --   "folke/which-key.nvim",
+  --   event = "VimEnter",
+  --   config = function()
+  --     require("config.whichkey").setup()
+  --   end,
+  -- }
+  -- -- Debugging
+  -- use {
+  --   "mfussenegger/nvim-dap",
+  --   opt = true,
+  --   event = "BufReadPre",
+  --   module = { "dap" },
+  --   wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
+  --   requires = {
+  --     "Pocco81/DAPInstall.nvim",
+  --     "theHamsta/nvim-dap-virtual-text",
+  --     "rcarriga/nvim-dap-ui",
+  --     "mfussenegger/nvim-dap-python",
+  --     "nvim-telescope/telescope-dap.nvim",
+  --     { "leoluz/nvim-dap-go",                module = "dap-go" },
+  --     { "jbyuki/one-small-step-for-vimkind", module = "osv" },
+  --   },
+  --   config = function()
+  --     require("config.dap").setup()
+  --   end,
+  -- }
 end)
