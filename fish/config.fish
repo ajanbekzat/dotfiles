@@ -17,6 +17,7 @@ function ide
   tmux split-window -h -p 66
   tmux split-window -h -p 50
 end
+alias setup_synthefy="source /Users/bekzatajan/Synthefy/projects/synthefy-package/setup_synthefy.fish"
 
 alias ls "ls -p -G"
 alias la "ls -A"
